@@ -1,0 +1,85 @@
+pre.knitr {
+  background-color: none;
+  border:none;
+  padding: 0 8px 0 8px;
+  margin: 0 0 0 0.5em ;
+            
+}
+.error {
+	font-weight: bold;
+	color: #FF0000;
+}, 
+.warning {
+	font-weight: bold;
+} 
+.message {
+	font-style: italic;
+} 
+div.output, .warning, .error, .message {
+	padding: 0.2em 0.5em;
+}
+
+div.source { padding: 0.5em 0;}
+
+.background {
+  color: #F7F7F7;
+}
+
+.number {
+  color: #00000;
+}
+
+.functioncall {
+  color: #800054;
+  font-weight: bolder;
+}
+
+.string {
+  color: #9999FF;
+}
+
+.keyword {
+  font-weight: bolder;
+  color: black;
+}
+
+.argument {
+  color: #B04005;
+}
+
+.comment {
+  color: #2E9957;
+}
+
+.roxygencomment {
+  color: #707AB3;
+}
+
+.formalargs {
+  color: #B04005;
+}
+
+.eqformalargs {
+  color: #B04005;
+}
+
+.assignement {
+  font-weight: bolder;
+  color: #00000;
+}
+
+.package {
+  color: #96B525;
+}
+
+.slot {
+  font-style: italic;
+}
+
+.symbol {
+  color: #00000;
+}
+
+.prompt {
+  color: #444444;
+}

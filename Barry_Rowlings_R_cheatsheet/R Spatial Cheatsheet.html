@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<!-- saved from url=(0072)http://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/cheatsheet.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>R Spatial Cheatsheet</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="./R Spatial Cheatsheet_files/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+    </style>
+    <link href="./R Spatial Cheatsheet_files/style.css" rel="stylesheet">
+    <link href="./R Spatial Cheatsheet_files/knitr.css" rel="stylesheet">
+
+<!--script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script-->
+
+
+
+    <link href="./R Spatial Cheatsheet_files/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="http://www.maths.lancs.ac.uk/~rowlings/Teaching/assets/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://www.maths.lancs.ac.uk/~rowlings/Teaching/assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://www.maths.lancs.ac.uk/~rowlings/Teaching/assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="http://www.maths.lancs.ac.uk/~rowlings/Teaching/assets/ico/apple-touch-icon-57-precomposed.png">
+
+   <script src="./R Spatial Cheatsheet_files/jquery.js.download"></script>
+    <script src="./R Spatial Cheatsheet_files/bootstrap.js.download"></script>
+    <script src="./R Spatial Cheatsheet_files/jquery.scianimator.min.js.download"></script>
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="http://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/index.html">Geospatial Data in R and Beyond</a>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li><a href="http://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/index.html">Home</a></li>
+	      <li class="dropdown">
+		<a href="http://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/cheatsheet.html#" class="dropdown-toggle" data-toggle="dropdown">Presentations<b class="caret"></b></a>
+		<ul class="dropdown-menu">
+                  <li class="nav-header">PDFs</li>
+		  <li><a href="http://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/static/talk1.pdf">Introduction to Spatial</a></li>
+		  <li><a href="http://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/static/talk2.pdf">Off Roading with Spatial</a></li>
+                  <li class="nav-header">Annotated Web Pages</li>
+		  <li><a href="http://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/introductionTalk.html">Introduction to Spatial</a></li>
+		  <li><a href="http://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/introduction2Talk.html">Off Roading with Spatial</a></li>
+		</ul>
+	      </li>
+	      <li class="dropdown">
+		<a href="http://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/cheatsheet.html#" class="dropdown-toggle" data-toggle="dropdown">Workshops<b class="caret"></b></a>
+		<ul class="dropdown-menu">
+                  <li class="nav-header">Walkthroughs</li>
+		  <li><a href="http://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/crime.html">Reading and Mapping Crime Data</a></li>
+		  <li><a href="http://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/plume.html">Plume Modelling Exercise</a></li>
+                  <li class="divider"></li>
+                  <li class="nav-header">R source</li>
+                  <li><a href="http://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/static/crime.R">Crime Data</a></li>
+                  <li><a href="http://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/static/plume.R">Pollution Model</a></li>
+		</ul>
+	      </li>
+              <li><a href="http://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/data.html">Sample Data</a></li>
+              <li><a href="http://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/cheatsheet.html">Cheatsheet</a></li>
+            </ul>
+            <p class="navbar-text pull-right">Lancaster University</p>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+
+        <div class="span12">
+      
+        
+
+
+
+
+
+
+
+
+
+
+
+<img src="./R Spatial Cheatsheet_files/cheat.jpg" class="header">
+<h1>Spatial Cheatsheet</h1>
+<p>
+This cheatsheet is an attempt to supply you with the key functions and 
+manipulations of spatial vector and raster data. It does not have examples 
+for you to cut and paste, its intention is to provoke the "Oh yes, that's
+how you do it" thought when stuck. 
+</p>
+<div style="clear:both">
+
+</div>
+<div class="row-fluid">
+<div class="span6">
+
+<h2>Packages</h2>
+<!-- load all packages again here - we'll get no startup messages this time -->
+<div id="packages" class="chunk"><div class="transcript"><div class="source"><pre class="knitr"><a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=library">library</a><span class="keyword">(</span><span class="symbol">sp</span><span class="keyword">)</span>  <span class="comment"># vector data</span>
+<a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=library">library</a><span class="keyword">(</span><span class="symbol">raster</span><span class="keyword">)</span>  <span class="comment"># raster data</span>
+<a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=library">library</a><span class="keyword">(</span><span class="symbol">rgdal</span><span class="keyword">)</span>  <span class="comment"># input/output, projections</span>
+<a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=library">library</a><span class="keyword">(</span><span class="symbol">rgeos</span><span class="keyword">)</span>  <span class="comment"># geometry ops</span>
+<a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=library">library</a><span class="keyword">(</span><span class="symbol">spdep</span><span class="keyword">)</span>  <span class="comment"># spatial dependence</span>
+</pre></div></div>
+ </div>
+
+</div>
+<div class="span6">
+<h2>Links</h2>
+<ul>
+<li><a target="_blank" href="http://cran.r-project.org/web/views/Spatial.html">Spatial Task View</a></li>
+<li><a target="_blank" href="https://stat.ethz.ch/mailman/listinfo/R-SIG-Geo/">R-SIG-Geo mailing list</a></li>
+<li><a target="_blank" href="http://r-forge.r-project.org/softwaremap/trove_list.php?form_cat=353">Spatial at R-forge</a></li>
+<li><a target="_blank" href="http://rwiki.sciviews.org/doku.php?id=tips:spatial-data">Spatial at R-wiki</a></li>
+<li><a target="_blank" href="http://crantastic.org/task_views/Spatial">Spatial at Crantastic!</a></li>
+<li><a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=map">"map" at RGM</a></li>
+<li><a target="_blank" href="http://www.osgeo.org/">OSgeo</a></li>
+<li><a target="_blank" href="http://stackoverflow.com/tags/r">StackOverflow R Questions</a></li>
+</ul>
+</div>
+
+</div>
+
+<div class="row-fluid">
+
+<div class="span4">
+
+<h2>Points</h2>
+
+<div id="points" class="chunk"><div class="transcript"><div class="source"><pre class="knitr"><span class="comment"># points from scratch</span>
+<span class="symbol">coords</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=cbind">cbind</a><span class="keyword">(</span><span class="symbol">x</span><span class="keyword">,</span> <span class="symbol">y</span><span class="keyword">)</span>
+<span class="symbol">sp</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=SpatialPoints">SpatialPoints</a><span class="keyword">(</span><span class="symbol">coords</span><span class="keyword">)</span>
+<span class="comment"># make spatial data frame</span>
+<span class="symbol">spdf</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=SpatialPointsDataFrame">SpatialPointsDataFrame</a><span class="keyword">(</span><span class="symbol">coords</span><span class="keyword">,</span> <span class="symbol">data</span><span class="keyword">)</span>
+<span class="symbol">spdf</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=SpatialPointsDataFrame">SpatialPointsDataFrame</a><span class="keyword">(</span><span class="symbol">sp</span><span class="keyword">,</span> <span class="symbol">data</span><span class="keyword">)</span>
+<span class="comment"># promote data frame to spatial</span>
+<a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=coordinates">coordinates</a><span class="keyword">(</span><span class="symbol">data</span><span class="keyword">)</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=cbind">cbind</a><span class="keyword">(</span><span class="symbol">x</span><span class="keyword">,</span> <span class="symbol">y</span><span class="keyword">)</span>
+<a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=coordinates">coordinates</a><span class="keyword">(</span><span class="symbol">data</span><span class="keyword">)</span> <span class="assignement">=</span> <span class="keyword">~</span><span class="symbol">lon</span> <span class="keyword">+</span> <span class="symbol">lat</span>
+<span class="comment"># back to data</span>
+<a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=as.data.frame">as.data.frame</a><span class="keyword">(</span><span class="symbol">data</span><span class="keyword">)</span>
+</pre></div><div class="output"><pre class="knitr">##      lon   lat Z
+## 1 11.515 24.52 d
+## 2  7.056 27.11 a
+## 3 12.945 30.09 c
+## 4 12.793 24.72 e
+## 5 12.888 28.24 b
+</pre></div><div class="source"><pre class="knitr"><span class="symbol">data</span><span class="keyword">@</span><span class="slot">data</span>
+</pre></div><div class="output"><pre class="knitr">##   Z
+## 1 d
+## 2 a
+## 3 c
+## 4 e
+## 5 b
+</pre></div><div class="source"><pre class="knitr"><a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=bbox">bbox</a><span class="keyword">(</span><span class="symbol">spdf</span><span class="keyword">)</span>
+</pre></div><div class="output"><pre class="knitr">##      min   max
+## x  7.056 12.94
+## y 24.520 30.09
+</pre></div></div>
+ </div>
+
+
+</div>
+
+<div class="span4">
+
+<h2>Lines</h2>
+
+
+
+<div id="linesdemo" class="chunk"><div class="transcript"><div class="source"><pre class="knitr"><span class="symbol">c1</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=cbind">cbind</a><span class="keyword">(</span><span class="symbol">x1</span><span class="keyword">,</span> <span class="symbol">y1</span><span class="keyword">)</span>
+<span class="symbol">c2</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=cbind">cbind</a><span class="keyword">(</span><span class="symbol">x2</span><span class="keyword">,</span> <span class="symbol">y2</span><span class="keyword">)</span>
+<span class="symbol">c3</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=cbind">cbind</a><span class="keyword">(</span><span class="symbol">x3</span><span class="keyword">,</span> <span class="symbol">y3</span><span class="keyword">)</span>
+
+<span class="comment"># simple line strings</span>
+<span class="symbol">L1</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=Line">Line</a><span class="keyword">(</span><span class="symbol">c1</span><span class="keyword">)</span>
+<span class="symbol">L2</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=Line">Line</a><span class="keyword">(</span><span class="symbol">c2</span><span class="keyword">)</span>
+<span class="symbol">L3</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=Line">Line</a><span class="keyword">(</span><span class="symbol">c3</span><span class="keyword">)</span>
+
+<span class="comment"># single/multiple line strings</span>
+<span class="symbol">Ls1</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=Lines">Lines</a><span class="keyword">(</span><a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=list">list</a><span class="keyword">(</span><span class="symbol">L1</span><span class="keyword">)</span><span class="keyword">,</span> <span class="argument">ID</span> <span class="argument">=</span> <span class="string">"a"</span><span class="keyword">)</span>
+<span class="symbol">Ls2</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=Lines">Lines</a><span class="keyword">(</span><a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=list">list</a><span class="keyword">(</span><span class="symbol">L2</span><span class="keyword">,</span> <span class="symbol">L3</span><span class="keyword">)</span><span class="keyword">,</span> <span class="argument">ID</span> <span class="argument">=</span> <span class="string">"b"</span><span class="keyword">)</span>
+
+<span class="comment"># with spatial nature</span>
+<span class="symbol">SL1</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=SpatialLines">SpatialLines</a><span class="keyword">(</span><a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=list">list</a><span class="keyword">(</span><span class="symbol">Ls1</span><span class="keyword">)</span><span class="keyword">)</span>
+<span class="symbol">SL12</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=SpatialLines">SpatialLines</a><span class="keyword">(</span><a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=list">list</a><span class="keyword">(</span><span class="symbol">Ls1</span><span class="keyword">,</span> <span class="symbol">Ls2</span><span class="keyword">)</span><span class="keyword">)</span>
+
+<span class="comment"># made into spatial data frame</span>
+<span class="symbol">SLDF</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=SpatialLinesDataFrame">SpatialLinesDataFrame</a><span class="keyword">(</span><span class="symbol">SL12</span><span class="keyword">,</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=data.frame">data.frame</a><span class="keyword">(</span><span class="argument">Z</span> <span class="argument">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=c">c</a><span class="keyword">(</span><span class="string">"Road"</span><span class="keyword">,</span> <span class="string">"River"</span><span class="keyword">)</span><span class="keyword">,</span> <span class="argument">row.names</span> <span class="argument">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=c">c</a><span class="keyword">(</span><span class="string">"a"</span><span class="keyword">,</span>
+    <span class="string">"b"</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">)</span>
+
+<a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=as.data.frame">as.data.frame</a><span class="keyword">(</span><span class="symbol">SLDF</span><span class="keyword">)</span>
+</pre></div><div class="output"><pre class="knitr">##       Z
+## a  Road
+## b River
+</pre></div><div class="source"><pre class="knitr"><a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=SpatialLinesLengths">SpatialLinesLengths</a><span class="keyword">(</span><span class="symbol">SLDF</span><span class="keyword">)</span>
+</pre></div><div class="output"><pre class="knitr">## [1] 2.414 4.828
+</pre></div></div>
+ </div>
+
+
+</div>
+<div class="span4">
+
+<h2>Polygons</h2>
+
+
+
+
+<div id="unnamed-chunk-1" class="chunk"><div class="transcript"><div class="source"><pre class="knitr"><span class="comment"># single ring feature</span>
+<span class="symbol">c1</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=cbind">cbind</a><span class="keyword">(</span><span class="symbol">x1</span><span class="keyword">,</span> <span class="symbol">y1</span><span class="keyword">)</span>
+<span class="symbol">r1</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=rbind">rbind</a><span class="keyword">(</span><span class="symbol">c1</span><span class="keyword">,</span> <span class="symbol">c1</span><span class="keyword">[</span><span class="number">1</span><span class="keyword">,</span> <span class="keyword">]</span><span class="keyword">)</span>  <span class="comment"># join</span>
+<span class="symbol">P1</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=Polygon">Polygon</a><span class="keyword">(</span><span class="symbol">r1</span><span class="keyword">)</span>
+<span class="symbol">Ps1</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=Polygons">Polygons</a><span class="keyword">(</span><a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=list">list</a><span class="keyword">(</span><span class="symbol">P1</span><span class="keyword">)</span><span class="keyword">,</span> <span class="argument">ID</span> <span class="argument">=</span> <span class="string">"a"</span><span class="keyword">)</span>
+
+<span class="comment"># double ring feature</span>
+<span class="symbol">c2a</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=cbind">cbind</a><span class="keyword">(</span><span class="symbol">x2a</span><span class="keyword">,</span> <span class="symbol">y2a</span><span class="keyword">)</span>
+<span class="symbol">r2a</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=rbind">rbind</a><span class="keyword">(</span><span class="symbol">c2a</span><span class="keyword">,</span> <span class="symbol">c2a</span><span class="keyword">[</span><span class="number">1</span><span class="keyword">,</span> <span class="keyword">]</span><span class="keyword">)</span>
+<span class="symbol">c2b</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=cbind">cbind</a><span class="keyword">(</span><span class="symbol">x2b</span><span class="keyword">,</span> <span class="symbol">y2b</span><span class="keyword">)</span>
+<span class="symbol">r2b</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=rbind">rbind</a><span class="keyword">(</span><span class="symbol">c2b</span><span class="keyword">,</span> <span class="symbol">c2b</span><span class="keyword">[</span><span class="number">1</span><span class="keyword">,</span> <span class="keyword">]</span><span class="keyword">)</span>
+
+<span class="symbol">P2a</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=Polygon">Polygon</a><span class="keyword">(</span><span class="symbol">r2a</span><span class="keyword">)</span>
+<span class="symbol">P2b</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=Polygon">Polygon</a><span class="keyword">(</span><span class="symbol">r2b</span><span class="keyword">)</span>
+<span class="symbol">Ps2</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=Polygons">Polygons</a><span class="keyword">(</span><a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=list">list</a><span class="keyword">(</span><span class="symbol">P2a</span><span class="keyword">,</span> <span class="symbol">P2b</span><span class="keyword">)</span><span class="keyword">,</span> <span class="argument">ID</span> <span class="argument">=</span> <span class="string">"b"</span><span class="keyword">)</span>
+
+<span class="comment"># Spatial Polygons Data Frame</span>
+<span class="symbol">SPs</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=SpatialPolygons">SpatialPolygons</a><span class="keyword">(</span><a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=list">list</a><span class="keyword">(</span><span class="symbol">Ps1</span><span class="keyword">,</span> <span class="symbol">Ps2</span><span class="keyword">)</span><span class="keyword">)</span>
+
+<span class="symbol">SPDF</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=SpatialPolygonsDataFrame">SpatialPolygonsDataFrame</a><span class="keyword">(</span><span class="symbol">SPs</span><span class="keyword">,</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=data.frame">data.frame</a><span class="keyword">(</span><span class="argument">N</span> <span class="argument">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=c">c</a><span class="keyword">(</span><span class="string">"one"</span><span class="keyword">,</span> <span class="string">"two"</span><span class="keyword">)</span><span class="keyword">,</span> <span class="argument">row.names</span> <span class="argument">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=c">c</a><span class="keyword">(</span><span class="string">"a"</span><span class="keyword">,</span> <span class="string">"b"</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">)</span>
+<span class="symbol">SPDF</span><span class="keyword">@</span><span class="slot">data</span>
+</pre></div><div class="output"><pre class="knitr">##     N
+## a one
+## b two
+</pre></div><div class="source"><pre class="knitr"><span class="comment"># single ring with hole</span>
+<span class="symbol">hc1</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=cbind">cbind</a><span class="keyword">(</span><span class="symbol">xh1</span><span class="keyword">,</span> <span class="symbol">yh1</span><span class="keyword">)</span>
+<span class="symbol">hr1</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=rbind">rbind</a><span class="keyword">(</span><span class="symbol">hc1</span><span class="keyword">,</span> <span class="symbol">hc1</span><span class="keyword">[</span><span class="number">1</span><span class="keyword">,</span> <span class="keyword">]</span><span class="keyword">)</span>
+<span class="symbol">H1</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=Polygon">Polygon</a><span class="keyword">(</span><span class="symbol">hr1</span><span class="keyword">,</span> <span class="argument">hole</span> <span class="argument">=</span> <span class="number">TRUE</span><span class="keyword">)</span>
+<span class="symbol">P1h</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=Polygons">Polygons</a><span class="keyword">(</span><a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=list">list</a><span class="keyword">(</span><span class="symbol">P1</span><span class="keyword">,</span> <span class="symbol">H1</span><span class="keyword">)</span><span class="keyword">,</span> <span class="argument">ID</span> <span class="argument">=</span> <span class="string">"c"</span><span class="keyword">)</span>
+<span class="symbol">SP1h</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=SpatialPolygons">SpatialPolygons</a><span class="keyword">(</span><a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=list">list</a><span class="keyword">(</span><span class="symbol">P1h</span><span class="keyword">)</span><span class="keyword">)</span>
+<span class="comment"># plot(SP1h,usePolypath=TRUE)</span>
+</pre></div></div>
+ </div>
+
+
+</div>
+
+</div><!-- end row -->
+
+<div class="row-fluid">
+<div class="span4">
+<h2>Raster</h2>
+
+
+
+<div id="unnamed-chunk-2" class="chunk"><div class="transcript"><div class="source"><pre class="knitr"><span class="comment"># from x,y,z-matrix</span>
+<span class="symbol">r1</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=raster">raster</a><span class="keyword">(</span><a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=list">list</a><span class="keyword">(</span><span class="argument">x</span> <span class="argument">=</span> <span class="symbol">x</span><span class="keyword">,</span> <span class="argument">y</span> <span class="argument">=</span> <span class="symbol">y</span><span class="keyword">,</span> <span class="argument">z</span> <span class="argument">=</span> <span class="symbol">z</span><span class="keyword">)</span><span class="keyword">)</span>
+<span class="comment"># rows and columns values</span>
+<span class="symbol">r1</span><span class="keyword">[</span><span class="keyword">,</span> <span class="number">3</span><span class="keyword">]</span>
+</pre></div><div class="output"><pre class="knitr">##  [1] 0.7377 0.3342 0.6924 0.3482 0.2972 0.8148 0.8212 0.5362 0.8750 0.9808 0.2729
+</pre></div><div class="source"><pre class="knitr"><span class="symbol">r1</span><span class="keyword">[</span><span class="number">2</span><span class="keyword">,</span> <span class="keyword">]</span>
+</pre></div><div class="output"><pre class="knitr">##  [1] 0.40396 0.79350 0.33422 0.25095 0.64577 0.88173 0.50432 0.73244 0.98500 0.13277 0.59993 0.04035
+</pre></div><div class="source"><pre class="knitr"><a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=extent">extent</a><span class="keyword">(</span><span class="symbol">r1</span><span class="keyword">)</span>
+</pre></div><div class="output"><pre class="knitr">## class       : Extent 
+## xmin        : 22.95 
+## xmax        : 29.45 
+## ymin        : 44 
+## ymax        : 46.3 
+</pre></div><div class="source"><pre class="knitr"><a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=dim">dim</a><span class="keyword">(</span><span class="symbol">r1</span><span class="keyword">)</span>
+</pre></div><div class="output"><pre class="knitr">## [1] 11 12  1
+</pre></div><div class="source"><pre class="knitr"><span class="comment"># create empty, then fill</span>
+<span class="symbol">r2</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=raster">raster</a><span class="keyword">(</span><span class="argument">nrows</span> <span class="argument">=</span> <span class="symbol">nrows</span><span class="keyword">,</span> <span class="argument">ncols</span> <span class="argument">=</span> <span class="symbol">ncols</span><span class="keyword">,</span> <span class="argument">xmn</span> <span class="argument">=</span> <span class="symbol">xmn</span><span class="keyword">,</span> <span class="argument">xmx</span> <span class="argument">=</span> <span class="symbol">xmx</span><span class="keyword">,</span> <span class="argument">ymn</span> <span class="argument">=</span> <span class="symbol">ymn</span><span class="keyword">,</span> <span class="argument">ymx</span> <span class="argument">=</span> <span class="symbol">ymx</span><span class="keyword">)</span>
+<span class="symbol">r2</span><span class="keyword">[</span><span class="keyword">]</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=runif">runif</a><span class="keyword">(</span><span class="symbol">nrows</span> <span class="keyword">*</span> <span class="symbol">ncols</span><span class="keyword">)</span>
+
+<span class="comment"># create from extent, then set values</span>
+<span class="symbol">r3</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=raster">raster</a><span class="keyword">(</span><a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=extent">extent</a><span class="keyword">(</span><span class="symbol">r2</span><span class="keyword">)</span><span class="keyword">,</span> <span class="argument">nrows</span> <span class="argument">=</span> <span class="symbol">nrows</span><span class="keyword">,</span> <span class="argument">ncols</span> <span class="argument">=</span> <span class="symbol">ncols</span><span class="keyword">)</span>
+<a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=values">values</a><span class="keyword">(</span><span class="symbol">r3</span><span class="keyword">)</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=runif">runif</a><span class="keyword">(</span><span class="symbol">nrows</span> <span class="keyword">*</span> <span class="symbol">ncols</span><span class="keyword">)</span>
+
+<span class="comment"># multi-band stack</span>
+<span class="symbol">s1</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=stack">stack</a><span class="keyword">(</span><a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=list">list</a><span class="keyword">(</span><span class="symbol">r1</span><span class="keyword">,</span> <span class="symbol">r2</span><span class="keyword">,</span> <span class="symbol">r3</span><span class="keyword">)</span><span class="keyword">)</span>
+<a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=dim">dim</a><span class="keyword">(</span><span class="symbol">s1</span><span class="keyword">)</span>
+</pre></div><div class="output"><pre class="knitr">## [1] 11 12  3
+</pre></div><div class="source"><pre class="knitr"><span class="comment"># multi-band brick</span>
+<span class="symbol">b1</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=brick">brick</a><span class="keyword">(</span><a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=list">list</a><span class="keyword">(</span><span class="symbol">r1</span><span class="keyword">,</span> <span class="symbol">r2</span><span class="keyword">,</span> <span class="symbol">r3</span><span class="keyword">)</span><span class="keyword">)</span>
+</pre></div></div>
+ </div>
+
+
+</div>
+<div class="span4">
+<h2>Coordinates</h2>
+
+
+<div id="coords" class="chunk"><div class="transcript"><div class="source"><pre class="knitr"><span class="comment"># EPSG strings</span>
+<span class="symbol">latlong</span> <span class="assignement">=</span> <span class="string">"+init=epsg:4326"</span>
+<span class="symbol">ukgrid</span> <span class="assignement">=</span> <span class="string">"+init=epsg:27700"</span>
+<span class="symbol">google</span> <span class="assignement">=</span> <span class="string">"+init=epsg:3857"</span>
+
+<span class="comment"># Spatial*</span>
+<a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=proj4string">proj4string</a><span class="keyword">(</span><span class="symbol">SPDF</span><span class="keyword">)</span>
+</pre></div><div class="output"><pre class="knitr">## [1] NA
+</pre></div><div class="source"><pre class="knitr"><a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=proj4string">proj4string</a><span class="keyword">(</span><span class="symbol">SPDF</span><span class="keyword">)</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=CRS">CRS</a><span class="keyword">(</span><span class="symbol">latlong</span><span class="keyword">)</span>
+<span class="symbol">SL1</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=SpatialLines">SpatialLines</a><span class="keyword">(</span><a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=list">list</a><span class="keyword">(</span><span class="symbol">Ls1</span><span class="keyword">)</span><span class="keyword">,</span> <span class="argument">proj4string</span> <span class="argument">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=CRS">CRS</a><span class="keyword">(</span><span class="symbol">latlong</span><span class="keyword">)</span><span class="keyword">)</span>
+
+<span class="comment"># Raster CRS</span>
+<a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=projection">projection</a><span class="keyword">(</span><span class="symbol">r1</span><span class="keyword">)</span>
+</pre></div><div class="output"><pre class="knitr">## [1] "NA"
+</pre></div><div class="source"><pre class="knitr"><span class="comment"># - assign or set on creation</span>
+<a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=projection">projection</a><span class="keyword">(</span><span class="symbol">r1</span><span class="keyword">)</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=CRS">CRS</a><span class="keyword">(</span><span class="symbol">latlong</span><span class="keyword">)</span>
+<span class="symbol">r1</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=raster">raster</a><span class="keyword">(</span><a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=list">list</a><span class="keyword">(</span><span class="argument">x</span> <span class="argument">=</span> <span class="symbol">x</span><span class="keyword">,</span> <span class="argument">y</span> <span class="argument">=</span> <span class="symbol">y</span><span class="keyword">,</span> <span class="argument">z</span> <span class="argument">=</span> <span class="symbol">z</span><span class="keyword">)</span><span class="keyword">,</span> <span class="argument">crs</span> <span class="argument">=</span> <span class="symbol">latlong</span><span class="keyword">)</span>
+
+<span class="comment"># Transform Spatial*</span>
+<span class="symbol">SPtrans</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=spTransform">spTransform</a><span class="keyword">(</span><span class="symbol">SPDF</span><span class="keyword">,</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=CRS">CRS</a><span class="keyword">(</span><span class="symbol">google</span><span class="keyword">)</span><span class="keyword">)</span>
+
+<span class="comment"># Transform/Warp Raster</span>
+<span class="symbol">rTrans</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=projectRaster">projectRaster</a><span class="keyword">(</span><span class="symbol">r1</span><span class="keyword">,</span> <span class="argument">crs</span> <span class="argument">=</span> <span class="symbol">google</span><span class="keyword">)</span>
+</pre></div></div>
+ </div>
+
+
+</div><!-- end column -->
+
+<div class="span4">
+<h2>I/O</h2>
+<div id="io" class="chunk"><div class="transcript"><div class="source"><pre class="knitr"><span class="comment"># -- vectors</span>
+
+<span class="comment"># avoid - doesn't read CRS</span>
+<a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=library">library</a><span class="keyword">(</span><span class="symbol">maptools</span><span class="keyword">)</span>
+<span class="symbol">shapes</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=readShapeSpatial">readShapeSpatial</a><span class="keyword">(</span><span class="string">"data.shp"</span><span class="keyword">)</span>
+
+<span class="comment"># read/write shapefiles (and others)</span>
+<span class="comment">#  - list formats</span>
+<a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=ogrDrivers">ogrDrivers</a><span class="keyword">(</span><span class="keyword">)</span>
+<span class="symbol">shapes</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=readOGR">readOGR</a><span class="keyword">(</span><span class="string">"."</span><span class="keyword">,</span> <span class="string">"data"</span><span class="keyword">)</span>
+<a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=writeOGR">writeOGR</a><span class="keyword">(</span><span class="symbol">shapes</span><span class="keyword">,</span> <span class="string">"."</span><span class="keyword">,</span> <span class="string">"data"</span><span class="keyword">,</span> <span class="string">"ESRI Shapefile"</span><span class="keyword">)</span>
+<a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=writeOGR">writeOGR</a><span class="keyword">(</span><span class="symbol">shapes</span><span class="keyword">,</span> <span class="string">"towns.kml"</span><span class="keyword">,</span> <span class="string">"towns"</span><span class="keyword">,</span> <span class="string">"KML"</span><span class="keyword">)</span>
+
+<span class="comment"># -- rasters</span>
+
+<span class="comment"># creates SpatialGrid objects</span>
+<span class="symbol">r</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=readGDAL">readGDAL</a><span class="keyword">(</span><span class="string">"data.tif"</span><span class="keyword">)</span>
+
+<span class="comment"># create Rasters/Brick objects from files</span>
+<span class="symbol">r</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=raster">raster</a><span class="keyword">(</span><span class="string">"data.tif"</span><span class="keyword">)</span>
+<span class="comment"># - write Raster to GeoTIFF</span>
+<a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=writeRaster">writeRaster</a><span class="keyword">(</span><span class="symbol">r</span><span class="keyword">,</span> <span class="string">"data2.tif"</span><span class="keyword">,</span> <span class="string">"GTiff"</span><span class="keyword">)</span>
+<span class="comment"># - supported formats</span>
+<a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=writeFormats">writeFormats</a><span class="keyword">(</span><span class="keyword">)</span>
+<span class="comment"># or for Google Earth</span>
+<a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=KML">KML</a><span class="keyword">(</span><span class="symbol">r</span><span class="keyword">,</span> <span class="string">"r.kmz"</span><span class="keyword">)</span>
+</pre></div></div>
+ </div>
+
+</div><!-- end column -->
+
+</div>
+
+<div class="row-fluid">
+<div class="span6">
+<h2>Manipulation</h2>
+
+
+<div id="manip" class="chunk"><div class="transcript"><div class="source"><pre class="knitr"><span class="comment"># Spatial*DataFrames</span>
+<span class="comment">#</span>
+<span class="comment"># subset(Towns,pop&gt;29000) doesn't work</span>
+<span class="symbol">BigTowns</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=subset">subset</a><span class="keyword">(</span><span class="symbol">Towns</span><span class="keyword">,</span> <span class="symbol">Towns</span><span class="keyword">$</span><span class="symbol">pop</span> <span class="keyword">&gt;</span> <span class="number">29000</span><span class="keyword">)</span>
+<span class="symbol">BigTowns</span> <span class="assignement">=</span> <span class="symbol">Towns</span><span class="keyword">[</span><span class="symbol">Towns</span><span class="keyword">$</span><span class="symbol">pop</span> <span class="keyword">&gt;</span> <span class="number">29000</span><span class="keyword">,</span> <span class="keyword">]</span>
+<span class="symbol">BigAndSmall</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=rbind">rbind</a><span class="keyword">(</span><span class="symbol">BigTowns</span><span class="keyword">,</span> <span class="symbol">SmallTowns</span><span class="keyword">)</span>
+
+<span class="comment"># points in zones</span>
+<span class="symbol">Towns</span><span class="keyword">[</span><span class="number">1</span><span class="keyword">:</span><span class="number">10</span><span class="keyword">,</span> <span class="keyword">]</span> <span class="keyword">%over%</span> <span class="symbol">Zones</span>
+</pre></div><div class="output"><pre class="knitr">##  [1]  1 NA  2 NA NA  2 NA NA NA  1
+</pre></div><div class="source"><pre class="knitr"><span class="comment"># rasters</span>
+<span class="comment"># - sample points</span>
+<span class="symbol">vpt</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=extract">extract</a><span class="keyword">(</span><span class="symbol">r1</span><span class="keyword">,</span> <span class="symbol">sPoints</span><span class="keyword">)</span>
+<span class="comment"># - sample polygons</span>
+<span class="symbol">vpoly</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=extract">extract</a><span class="keyword">(</span><span class="symbol">r1</span><span class="keyword">,</span> <span class="symbol">sPolys</span><span class="keyword">)</span>
+<span class="comment"># - crop an area</span>
+<span class="symbol">e</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=extent">extent</a><span class="keyword">(</span><a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=raster">raster</a><span class="keyword">(</span><span class="argument">xmn</span> <span class="argument">=</span> <span class="number">25</span><span class="keyword">,</span> <span class="argument">xmx</span> <span class="argument">=</span> <span class="number">27</span><span class="keyword">,</span> <span class="argument">ymn</span> <span class="argument">=</span> <span class="number">44.5</span><span class="keyword">,</span> <span class="argument">ymx</span> <span class="argument">=</span> <span class="number">45.5</span><span class="keyword">)</span><span class="keyword">)</span>
+<span class="symbol">cr1</span> <span class="assignement">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=crop">crop</a><span class="keyword">(</span><span class="symbol">r1</span><span class="keyword">,</span> <span class="symbol">e</span><span class="keyword">)</span>
+</pre></div></div>
+ </div>
+
+</div>
+<div class="span6">
+<h2>Plotting</h2>
+
+
+
+<div id="plots" class="chunk"><div class="transcript"><div class="source"><pre class="knitr"><span class="comment"># scale colour</span>
+<a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=library">library</a><span class="keyword">(</span><span class="symbol">RColorBrewer</span><span class="keyword">)</span>
+<a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=palette">palette</a><span class="keyword">(</span><a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=brewer.pal">brewer.pal</a><span class="keyword">(</span><span class="number">6</span><span class="keyword">,</span> <span class="string">"YlOrRd"</span><span class="keyword">)</span><span class="keyword">)</span>
+<a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=plot">plot</a><span class="keyword">(</span><span class="symbol">Towns</span><span class="keyword">,</span> <span class="argument">col</span> <span class="argument">=</span> <span class="package">plotrix</span><span class="keyword">:::</span><a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=rescale">rescale</a><span class="keyword">(</span><span class="symbol">Towns</span><span class="keyword">$</span><span class="symbol">pop</span><span class="keyword">,</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=c">c</a><span class="keyword">(</span><span class="number">1</span><span class="keyword">,</span> <span class="number">6</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">,</span> <span class="argument">pch</span> <span class="argument">=</span> <span class="number">19</span><span class="keyword">)</span>
+
+<span class="comment"># scale size</span>
+<a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=plot">plot</a><span class="keyword">(</span><span class="symbol">Towns</span><span class="keyword">,</span> <span class="argument">cex</span> <span class="argument">=</span> <span class="package">plotrix</span><span class="keyword">:::</span><a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=rescale">rescale</a><span class="keyword">(</span><span class="symbol">Towns</span><span class="keyword">$</span><span class="symbol">pop</span><span class="keyword">,</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=c">c</a><span class="keyword">(</span><span class="number">1</span><span class="keyword">,</span> <span class="number">4</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">,</span> <span class="argument">pch</span> <span class="argument">=</span> <span class="number">19</span><span class="keyword">)</span>
+
+<span class="comment"># polygons</span>
+<a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=plot">plot</a><span class="keyword">(</span><span class="symbol">Zones</span><span class="keyword">,</span> <span class="argument">col</span> <span class="argument">=</span> <span class="symbol">fillColour</span><span class="keyword">,</span> <span class="argument">border</span> <span class="argument">=</span> <span class="symbol">outlineColour</span><span class="keyword">)</span>
+
+<span class="comment"># sp colours</span>
+<a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=sp.theme">sp.theme</a><span class="keyword">(</span><span class="argument">set</span> <span class="argument">=</span> <span class="number">TRUE</span><span class="keyword">,</span> <span class="argument">regions</span> <span class="argument">=</span> <a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=list">list</a><span class="keyword">(</span><span class="argument">col</span> <span class="argument">=</span> <span class="symbol">colours</span><span class="keyword">)</span><span class="keyword">)</span>
+<a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=spplot">spplot</a><span class="keyword">(</span><span class="symbol">Towns</span><span class="keyword">,</span> <span class="string">"pop"</span><span class="keyword">)</span>
+
+<span class="comment"># rasters</span>
+<a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=plot">plot</a><span class="keyword">(</span><span class="symbol">r1</span><span class="keyword">)</span>
+
+<span class="comment"># true colour from bricks</span>
+<a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query=plotRGB">plotRGB</a><span class="keyword">(</span><span class="symbol">b1</span><span class="keyword">,</span> <span class="argument">scale</span> <span class="argument">=</span> <span class="number">1</span><span class="keyword">)</span>
+</pre></div></div>
+ </div>
+
+</div>
+
+<!-- implicit row end from template -->
+
+
+        
+        </div><!--/span-->
+
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <p>© Barry Rowlingson 2012 | stock imagery from <a target="_blank" href="http://www.sxc.hu/">Stock.xchng</a></p>
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/"><img alt="Creative Commons License" style="border-width:0" src="./R Spatial Cheatsheet_files/88x31.png"></a><br><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">UseR 2012 Spatial Data Workshop</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License</a>.
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+ 
+
+<script type="text/javascript">
+$("span.functioncall").replaceWith(function(){return '<a target="_blank" href="http://rgm2.lab.nig.ac.jp/RGM2/search.php?query='+$(this).text()+'">'+$(this).text()+'</a>'})
+</script>
+
+
+
+
+  
+
+</div></body></html>

@@ -1,0 +1,38 @@
+div.aside {margin-left: 5%; margin-right: 5%; font-style: italic }
+
+h1 {   }
+
+section.h1 { padding-bottom: 30px }
+
+table.table { margin-left: 25%;width: 50%; }
+
+img.header { xwidth: 50%; float: right; padding: 1em 1em; }
+
+div.chunk {overflow: hidden; width: 100%; margin: 1em 0; }
+div.transcript {
+                 background-color: #f7f7f7;
+                 border:solid 1px #B0B0B0; 
+
+
+                 }
+div.half {
+                       width: 65%;
+                       float: left;
+                       }
+div.rimage { width:25%;float:right;
+
+}
+div.rimage a img {width: 100% ;
+
+}
+@media print {
+ img.plot { width: 50% }
+ div.rimage { float:none;width: 55% }
+ div.half { float:none ; width: 75% }
+}
+
+div.modal { width:700px; margin: -350px 0 0 -380px;}
+
+div.presentation p {margin-top: 1em;font-size: 130% }
+div.presentation p:first-letter { font-size: 150% }
+div.presentation div.row { border-bottom: 3px solid #ccc }

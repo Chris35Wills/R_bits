@@ -36,7 +36,7 @@ colour_scatter <- function(pnts_df, x='x', y='y', z='z', x_label='x', y_label="y
 	
 	if (class(pnts_df) != "data.frame") {
 		print("Trying to convert pnts to a dataframe...")
-		pnts_df=as.data.frame()
+		pnts_df=as.data.frame(pnts_df)
 		print("Dataframe conversion successful")
 	}
 	
@@ -52,7 +52,7 @@ colour_scatter <- function(pnts_df, x='x', y='y', z='z', x_label='x', y_label="y
 	geom_point() + 
 	#scale_color_discrete() +
 	#scale_fill_manual(cbPalette) +
-	#scale_colour_hue()l=70, c=150)   # discrete
+	#scale_colour_hue(l=70, c=150)   # discrete
 	scale_colour_gradientn(colours=rainbow(4)) +  # continuous
 	#scale_colour_gradient2(midpoint=cbar_midpoint, low="red", high="blue") + # colorbar default centres on zero  
 	labs(x = x_label, y = y_label)
@@ -72,19 +72,20 @@ colour_scatter <- function(pnts_df, x='x', y='y', z='z', x_label='x', y_label="y
 #' 	ggplot.variogram(vario, xlabel=x_label)
 ggplot.variogram <- function(vario, xlabel='Distance', ylabel='Semivariance', sqrt_semivar=FALSE) {
  
- 
  	if (sqrt_semivar==FALSE){	
  		plt=ggplot(vario,aes(x=dist,y=gamma))
  	} else { 	
  		vario$gamma=sqrt(vario$gamma)
  		plt=ggplot(vario,aes(x=dist,y=gamma))
- 		y_label="Square-root of semivariance (sp units of z of the inputs)"
+ 		if (ylabel=='Semivariance'){
+ 			ylabel="Square-root of semivariance (sp units of z of the inputs)"
+ 	 	}
  	}
-  
+
   	plt +
     geom_point() +
     expand_limits(y=0) +
-    labs(x = x_label, y = y_label)
+    labs(x = xlabel, y = ylabel)
 }
 
 #http://stats.stackexchange.com/questions/58899/what-does-the-semivariance-tell-me
@@ -123,6 +124,62 @@ ggplot.variogram.pls.model<-function(vario, vario.model.fit, xlabel='Distance', 
 	labs(x = x_label, y = y_label)
 
 }
+
+
+library(scatterplot3d) 
+#' 3d scatter
+#' df must be a dataframe with column names including x, y and z (which will be plotted)
+#' https://www.r-bloggers.com/getting-fancy-with-3-d-scatterplots/
+#' https://cran.r-project.org/web/packages/scatterplot3d/vignettes/s3d.pdf
+xyz_3d<-function(df, x_lab='easting', y_lab='northing', z_lab='elevation', vert_lines=TRUE, add_labels=TRUE, xlim=NULL, ylim=NULL, zlim=NULL, color="blue", angle=40, pch=16, hlight_3d=FALSE, title=''){
+  #x11()	
+
+  with(df, {
+
+	if (vert_lines!=TRUE){
+	    s3d<-scatterplot3d(x, y, z,        # x y and z axis
+	                 color=color, 
+	                 xlab=x_lab,
+	                 ylab=y_lab,
+	                 zlab=z_lab,
+	                 xlim=xlim,
+	                 ylim=ylim,
+	                 zlim=zlim,
+	                 angle=angle,
+	                 pch = pch,
+	                 highlight.3d=hlight_3d,
+	                 main=title
+	                 )
+	} else {
+	    s3d<-scatterplot3d(x, y, z,        # x y and z axis
+	                 color=color,
+	                 type="h",             # lines to the horizontal plane
+	                 xlab=x_lab,
+	                 ylab=y_lab,
+	                 zlab=z_lab,
+			         xlim=xlim,
+	                 ylim=ylim,
+	                 zlim=zlim,
+	                 angle=angle,
+	                 pch = pch,
+	                 highlight.3d=hlight_3d,
+	                 main=title
+	                 )
+
+	}
+
+    if (add_labels==TRUE){
+	    # add labels
+	    s3d.coords <- s3d$xyz.convert(x, y, z)               
+	    text(s3d.coords$x, s3d.coords$y,             # x and y coordinates
+	            labels=round(df$z),               # text to plot
+	            cex=.5, pos=4)
+	} else {}
+
+  })
+
+}
+
 
 ###############################################
 ###############################################
